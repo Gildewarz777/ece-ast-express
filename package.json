@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "description": "Ece class project",
   "scripts": {
-    "start": "./bin/start",
-    "compile": "./bin/compile",
-    "test": "./bin/test tests/*"
+    "start": "sh ./bin/start",
+    "compile": "sh ./bin/compile",
+    "test": "sh ./bin/test tests/*"
   },
   "author": "cesar berezowski",
   "license": "ISC",

@@ -17,7 +17,8 @@ Use `npm test` or `./bin/test`
 
 ## Contributors
 
-Cesar Berezowski 
+Kyota Lannelongue
+Damien Matthias
 
 ## License 
 

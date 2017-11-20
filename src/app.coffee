@@ -31,5 +31,10 @@ app.post '/metrics.json/:id', (req, res) ->
     throw next err if err 
     res.status(200).send 'metrics saved'
 
+app.delete '/metrics.json/:id', (req, res) ->
+  metrics.remove req.params.id, req.body, (err) ->
+    throw next err if err
+    res.status(200).send 'metrics removed'
+
 app.listen app.get('port'), () ->
   console.log "Server listening on #{app.get 'port'} !"

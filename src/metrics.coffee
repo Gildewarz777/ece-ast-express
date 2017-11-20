@@ -9,9 +9,18 @@ module.exports =
   # - id: metric's id 
   # - callback: the callback function, callback(err, data)
   get: (id, callback) ->
-    callback(null)
-    #rs = db.createReadStream(...)
-    # read 
+    rs = db.createReadStream()
+    rs.on 'data', data ->
+      [ ..., dataUsername, dataId, dataTimestamp ] = data.key.split ":"
+      if username == dataUsername
+        res.push 
+          id: dataId
+          timestamp: dataTimestamp
+          value: data.value
+
+    rs.on 'error', (err) -> callback err
+    rs.on 'end', () ->
+      callback null, res
     
   # save(id, metrics, callback)
   # Save given metrics 
@@ -28,3 +37,28 @@ module.exports =
         key: "metrics:#{id}:#{timestamp}"
         value: value
     ws.end()
+  
+  remove: (id, metrics, callback) ->
+    # Arrays of keys to be deleted
+    keys = []
+
+    rs = db.createKeyStream()
+    rs.on 'error', (err) -> callback err
+    rs.on 'data', (key) ->
+      [ keyTable, dataUsername, dataId ] = data.key.split ":"
+
+      if keyTable == 'metric' and dataId == id and username == dataUsername
+        keys.push key
+
+    # Deleting 
+    rs.on 'end', () ->
+      ws = db.createWriteStream({ type: 'del' })
+
+      ws.on 'error', (err) -> callback err
+      ws.on 'close', callback
+
+      for key in keys
+        ws.write
+          key: key
+      ws.end()
+
