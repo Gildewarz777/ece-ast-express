@@ -1,0 +1,29 @@
+extends layout
+
+block head
+  script(type="text/javascript" src="/js/jquery-3.2.1.min.js" charset="utf-8")
+  script(type="text/javascript" src="/js/bootstrap.min.js" charset="utf-8")
+  link(rel="stylesheet", href="/css/bootstrap.min.css")
+  link(rel="stylesheet", href="/css/bootstrap-theme.min.css")
+
+block content
+  div.container
+    #form.col-md-6.col-md-offset-3
+      hr
+      h2.text-center Sign up
+      hr
+      form#signup(action='/signup', method="post")
+        .form-group
+          label Username
+          input(type='text', name="username")
+        .form-group
+          label Password
+          input(type='password', name="password")
+        .form-group
+          label Email
+          input(type='email', name="email")
+        button#signup_submit.btn.btn-primary.btn-block(type='submit')
+          i.icon-ok.icon-white
+          |  Signup
+        hr
+        button.btn.btn-success.btn-block(type='button', onclick='location.href="/login"') Login
